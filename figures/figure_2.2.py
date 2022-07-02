@@ -57,5 +57,5 @@ with Pool() as pool:
     plt.title('% optimal actions')
 
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1.0))
-    # plt.savefig('Figure 2.2.png')
+    plt.savefig('figure_2.2.png')
     plt.show()

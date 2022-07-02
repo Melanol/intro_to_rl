@@ -1,23 +1,26 @@
-""" Page 34. """
+""" Page 34. It is different from the simple bandit not only in initial values,
+but also in having a constant learning rate. """
 
 import random
-from multiprocessing import Pool
 import math
 
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib.ticker as mtick
 
-from environments.k_armed_bandit_env import KArmedBanditEnv
-
-
-class Agent:
-    def __init__(self, env, initial, epsilon):
+class OptimisticBandit:
+    def __init__(self, env=None, epsilon=0.1, initial=0, alpha=0.1):
         self.env = env
         self.epsilon = epsilon
-        self.Q = [initial] * len(env.action_space)
+        self.initial = initial
+        self.alpha = alpha
+        try:
+            self.Q = [initial] * len(env.action_space)
+        except AttributeError:
+            pass
 
-    def act(self):
+    def assign_env(self, env):
+        self.env = env
+        self.Q = [0] * len(env.action_space)
+
+    def act(self, step):
         if random.random() <= self.epsilon:
             action = random.choice(self.env.action_space)
         else:
@@ -31,55 +34,40 @@ class Agent:
             action = max_action
         return action
 
+    def learn(self, action, reward):
+        self.Q[action] += self.alpha * (reward - self.Q[action])
 
-def exe(initial, epsilon):
+
+def exe():
+    from matplotlib import pyplot as plt
+    import numpy as np
+
+    from environments.k_armed_bandit_env import KArmedBanditEnv
+
+    STEPS = 1000
+    EPISODES = 2000
+    EPSILON = 0
+    INITIAL = 5
+    ALPHA = 0.1
+    ENV = KArmedBanditEnv()
+
     avg_rewards = np.zeros(STEPS)
-    avg_perc_opt_actions = np.zeros(STEPS)
-    for episode in range(1, EPISODES + 1):
-        env = KArmedBanditEnv()
-        agent = Agent(env, initial, epsilon)
+    for episode in range(1, EPISODES+1):
+        ENV.reset()
+        agent = OptimisticBandit(ENV, EPSILON, INITIAL, ALPHA)
         rewards = []
-        optimal_actions_bool = []
         for _ in range(1, STEPS+1):
             action = agent.act()
-            reward = env.step(action)
-            agent.Q[action] += ALPHA * (reward - agent.Q[action])
+            reward = ENV.step(action)
+            agent.learn(action, reward)
             rewards.append(reward)
-            optimal_actions_bool.append(action == env.optimal_action)
         for i in range(STEPS):
             avg_rewards[i] += (rewards[i] - avg_rewards[i]) / episode
-            avg_perc_opt_actions[i] += (optimal_actions_bool[i] - avg_perc_opt_actions[i]) / episode
-    return avg_rewards, avg_perc_opt_actions
 
-STEPS = 1000
-EPISODES = 2000
-ALPHA = 0.1
-INITIALS = (0, 5)
-EPSILONS = (0.1, 0)
-
-with Pool() as pool:
-    results = pool.starmap(exe, zip(INITIALS, EPSILONS))
-    avg_rewards = []
-    avg_perc_opt_actions = []
-    for r, p in results:
-        avg_rewards.append(r)
-        avg_perc_opt_actions.append(p)
-    plt.figure(figsize=(10, 7))
-
-    plt.subplot(2, 1, 1)
-    for i, epsilon in enumerate(EPSILONS):
-        plt.xticks([1] + list(range(200, STEPS+1, 200)))
-        plt.plot(range(1, STEPS+1), avg_rewards[i], label=f'init: {INITIALS[i]} e: {epsilon}')
-    plt.legend()
+    plt.xticks([1] + list(range(200, STEPS+1, 200)))
+    plt.plot(range(1, STEPS+1), avg_rewards)
     plt.title('Average rewards')
-
-    plt.subplot(2, 1, 2)
-    for i, epsilon in enumerate(EPSILONS):
-        plt.xticks([1] + list(range(200, STEPS+1, 200)))
-        plt.plot(range(1, STEPS+1), avg_perc_opt_actions[i], label=f'init: {INITIALS[i]} e: {epsilon}')
-    plt.legend()
-    plt.title('% optimal actions')
-
-    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1.0))
-    # plt.savefig('optimistic_bandit.png')
     plt.show()
+
+if __name__ == '__main__':
+    exe()

@@ -1,11 +1,11 @@
-""" Page 28. """
+""" Page 28. Learning is already incremental. """
 
 import random
 import math
 
 
 class SimpleBandit:
-    def __init__(self, env, epsilon):
+    def __init__(self, env=None, epsilon=0.1):
         self.env = env
         self.epsilon = epsilon
         self.Q = [0] * len(env.action_space)
@@ -39,15 +39,16 @@ def exe():
     STEPS = 1000
     EPISODES = 2000
     EPSILON = 0.1
+    ENV = KArmedBanditEnv()
 
     avg_rewards = np.zeros(STEPS)
-    for episode in range(1, EPISODES + 1):
-        env = KArmedBanditEnv()
-        agent = SimpleBandit(env, EPSILON)
+    for episode in range(1, EPISODES+1):
+        ENV.reset()
+        agent = SimpleBandit(ENV, EPSILON)
         rewards = []
         for _ in range(1, STEPS+1):
             action = agent.act()
-            reward = env.step(action)
+            reward = ENV.step(action)
             agent.learn(action, reward)
             rewards.append(reward)
         for i in range(STEPS):

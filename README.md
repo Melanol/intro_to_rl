@@ -9,6 +9,6 @@ yourself, import it to teach an agent; run an algo to test it; run a Python figu
 
 For envs with grids, the origin is in the top left corner.
 
-Tic-tac-toe from the introductory chapter was skipped, as it is only presented in the book as a case that is hard for 
-methods other than RL and is not meant to be reproduced by students. Having 2 players overcomplicates things.
+Figure files mostly for replicating figures from the books, so algo files are main files.
 
+# TODO: Don't combine different algos into 1 Pool
