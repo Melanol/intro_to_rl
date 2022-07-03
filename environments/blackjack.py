@@ -6,11 +6,10 @@ import random
 class StickOn21Agent:
     def __init__(self, env):
         self.env = env
-        self.V = {}  # We add state values as we encounter new states
 
     def act(self, obs):
         # The obs is decoded dealer's showing card and the sum in our hand in the form (int, int)
-        if obs[1] >= 20:
+        if obs[1] >= 20:  # The agent sticks only on 20 and 21
             return 'stick'
         else:
             return 'hit'
@@ -18,6 +17,7 @@ class StickOn21Agent:
 class Blackjack:
     def __init__(self):
         self.deck = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+        self.action_space = ['hit', 'stick']
 
     def reset(self):
         self.dealer_hand = self.draw_cards(2)
@@ -102,28 +102,28 @@ def exe():
     env = Blackjack()
     agent = StickOn21Agent(env)
     env.agent = agent
-    rewards = []
+    returns = []
     for _ in range(EPISODES):
         obs = env.reset()
         done = False
         while not done:
             action = agent.act(obs)
             obs, reward, done, _ = env.step(action)
-        rewards.append(reward)
-    print(rewards)
+        returns.append(reward)
+
     count_wins = 0
     count_losses = 0
     count_draws = 0
-    for reward in rewards:
+    for reward in returns:
         if reward == 1:
             count_wins += 1
         elif reward == -1:
             count_losses += 1
         else:
             count_draws += 1
-    print(count_wins / len(rewards))
-    print(count_losses / len(rewards))
-    print(count_draws / len(rewards))
+    print(f'Win percentage: {count_wins / len(returns)}')
+    print(f'Loss percentage: {count_losses / len(returns)}')
+    print(f'Draw percentage: {count_draws / len(returns)}')
 
 if __name__ == '__main__':
     exe()
