@@ -11,4 +11,8 @@ For envs with grids, the origin is in the top left corner.
 
 Figure files mostly for replicating figures from the books, so algo files are main files.
 
-# TODO: Don't combine different algos into 1 Pool
+Recommendation to self-learners: don't bother replicating everything in the book, it's not worth it. Read the book, 
+understand it, play with algos, and then move on to https://github.com/DLR-RM/stable-baselines3.
+
+# TODO: Refactor envs in accordance to openAI gym
+# TODO: Use a switch for 2 players

@@ -1,8 +1,5 @@
-""" 2.8 Gradient Bandit Algorithms. Page 37. No baseline 0.4 results in overflow. I decided to omit those, as
-they are not used in real projects anyway. The solution is described here:
-https://www.datahubbs.com/multi-armed-bandits-reinforcement-learning-2 in "Softmax Nuance", but it is only
-useful in recreating the image. """
-# TODO: Add baselines
+""" Page 37. Not using baselines results in overflow. There is a solution, but the algo without baselines
+is useless anyway. """
 
 from multiprocessing import Pool
 

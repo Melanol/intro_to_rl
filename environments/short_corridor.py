@@ -75,7 +75,7 @@ class Human:
                     return np.array([1, 0])
 
 
-def play():
+def exe():
     env = ShortCorridor()
     agent = Human(env)
     env.agent = agent
@@ -87,4 +87,4 @@ def play():
             print('\nTermination')
 
 if __name__ == '__main__':
-    play()
+    exe()
