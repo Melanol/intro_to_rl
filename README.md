@@ -15,6 +15,7 @@ Figure files mostly for replicating figures from the books, so algo files are ma
 Recommendation to self-learners: don't bother replicating everything in the book, it's not worth it. Read the book, 
 understand it, play with algos, and then move on to https://github.com/DLR-RM/stable-baselines3.
 
+This repo tries to not touch exercises.
 
 # TODO: Use a switch for 2 players:
 switch = 0
