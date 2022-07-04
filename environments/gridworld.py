@@ -49,6 +49,7 @@ class Gridworld:
             count += 1
 
     def move_player(self, action):
+        # TODO: 1st move, then check
         if action == 'up':
             self.player.position.y -= 1
         elif action == 'down':

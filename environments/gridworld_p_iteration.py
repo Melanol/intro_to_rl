@@ -24,6 +24,7 @@ class Gridworld:
         self.action_space = 'up', 'down', 'left', 'right'
 
     def step(self, x, y, action):
+        # TODO: 1st move, then check
         # # Terminal state:
         # if (x, y) in TERMINAL_STATE:
         #     return 0, x, y

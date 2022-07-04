@@ -5,13 +5,15 @@ import math
 import random
 from matplotlib import pyplot as plt
 
-from environments.random_walk import RandomWalk
+from environments.windy_gridworld import
 
 
 EPISODES = 200
-EPSILON = 0.5
-ALPHA = 0.1
-DISCOUNT = 0.9
+EPSILON = 0.1
+ALPHA = 0.5
+DISCOUNT = 1
+INITIAL_Q = 0
+
 
 class Agent:
     def __init__(self, game):
