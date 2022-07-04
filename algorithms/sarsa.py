@@ -1,4 +1,4 @@
-# Page 130
+"""Page 130."""
 
 import math
 import random

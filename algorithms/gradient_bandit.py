@@ -15,10 +15,10 @@ class Agent:
         self.H = np.zeros(len(env.action_space))
         self.softmax()
 
-    def softmax(self):  # FIXME: Unugly
+    def softmax(self):
         self.pi = np.exp(self.H) / np.sum(np.exp(self.H))
 
-    def act(self):  # FIXME: Unugly
+    def act(self):
         return np.random.choice(self.env.action_space, p=self.pi)
 
 

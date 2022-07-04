@@ -3,7 +3,6 @@ This is an attempt to reproduce the gridworld of the chapter 3.5 (example 3.5), 
 In indexing, the origin is at the top left, rows come 1st (ex: (0, 0) is the origin). Telestates are teleportation
 states. 1st coord is the start, 2nd is the end, the last number is the reward for using the teleport. Trying to
 escape the board results in no movement but -1 reward. Normal moves result in 0 reward. The policy is random.
-
 """
 
 import random

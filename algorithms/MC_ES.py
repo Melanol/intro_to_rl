@@ -54,7 +54,6 @@ def exe():
             rewards.append(reward)
 
         G = 0
-        # print(len(observations), len(actions), len(rewards))
         for t in reversed(range(len(observations))):
             if rewards[t]:
                 G = GAMMA * G + rewards[t]

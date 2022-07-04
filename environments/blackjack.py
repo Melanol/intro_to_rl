@@ -1,4 +1,4 @@
-""" Page 93. The deck is infinite (i.e., with replacement). """
+"""Page 93. The deck is infinite (i.e., with replacement)."""
 
 import random
 

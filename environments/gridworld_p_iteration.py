@@ -5,8 +5,8 @@ X  □  □  □
 □  □  □  □
 □  □  □  □
 □  □  □  X
-
 """
+
 import random
 from pprint import pprint as print
 

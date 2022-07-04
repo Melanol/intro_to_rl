@@ -1,6 +1,4 @@
-"""
-Page 147.
-"""
+"""Page 147."""
 
 import random
 

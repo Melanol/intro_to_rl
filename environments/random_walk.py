@@ -1,6 +1,4 @@
-"""
-Page 125.
-"""
+"""Page 125."""
 
 
 class RandomWalk:

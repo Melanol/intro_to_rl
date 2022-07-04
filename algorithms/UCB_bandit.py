@@ -1,4 +1,4 @@
-""" Page 35. """
+"""Page 35."""
 
 import math
 

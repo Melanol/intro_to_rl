@@ -1,4 +1,5 @@
 """Multiple states."""
+
 import random
 from pprint import pprint as print
 

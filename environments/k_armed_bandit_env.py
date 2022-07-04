@@ -1,4 +1,4 @@
-""" Page 28. """
+"""Page 28."""
 
 import random
 
