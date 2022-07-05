@@ -1,4 +1,4 @@
-from environments.windy_gridworld import WindyGridworld, Human
+from environments.windy_gridworld import WindyGridworld
 
 
 def test_reaching_goal():

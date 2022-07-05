@@ -1,5 +1,7 @@
-""" Page 99. Monte Carlo Exploring Starts. """
-import random
+"""Page 99. Monte Carlo Exploring Starts. Since it's Blackjack, start states are already random."""
+
+# TODO: Algo abandoned till later due to envo
+
 import math
 
 from environments.blackjack import Blackjack
@@ -33,14 +35,6 @@ def exe():
     returns = {}
     for _ in range(EPISODES):
         obs = env.reset()
-
-        # # Exploring start (since it's Blackjack, start states are already random):
-        # action = random.choice(['hit', 'stick'])
-        # obs, reward, done, _ = env.step(action)
-        # if done:
-        #     returns.append(reward)
-        #     continue
-
         observations = []
         actions = []
         rewards = []
@@ -76,11 +70,7 @@ def exe():
                 max_action_value = -math.inf
                 max_action = None
                 for a in env.action_space:
-                    try:
-                        action_value = agent.Q[(observations[t], a)]
-                    except KeyError:
-                        agent.Q[(observations[t], a)] = DEFAULT_Q
-                        action_value = agent.Q[(observations[t], a)]
+                    action_value = self.Q.get((next_obs.x, next_obs.y), DEFAULT_Q)
                     if action_value > max_action_value:
                         max_action_value = action_value
                         max_action = a

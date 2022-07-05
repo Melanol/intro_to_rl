@@ -17,6 +17,8 @@ understand it, play with algos, and then move on to https://github.com/DLR-RM/st
 
 This repo tries to not touch exercises.
 
+# TODO: Normalize hyper names (gamma or discount)
+
 # TODO: Use a switch for 2 players:
 switch = 0
 while True:

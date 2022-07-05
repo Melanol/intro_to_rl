@@ -6,20 +6,20 @@ class RandomWalk:
         self.all_states = ['T', 'A', 'B', 'C', 'D', 'E', 'T']
         self.action_space = ['left', 'right']
 
-    def start(self):
+    def reset(self):
         self.state = 3  # We start in the middle
         return self.state
 
     def step(self, action):
         reward = 0
-        termination = False
+        done = False
         if action == 'left':
             self.state -= 1
         elif action == 'right':
             self.state += 1
         if self.state == 0:
-            termination = True
+            done = True
         elif self.state == len(self.all_states) - 1:
             reward = 1
-            termination = True
-        return reward, self.state, termination
+            done = True
+        return self.state, reward, done

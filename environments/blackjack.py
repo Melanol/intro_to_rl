@@ -1,4 +1,5 @@
 """Page 93. The deck is infinite (i.e., with replacement)."""
+# FIXME: Abandoned: not working
 
 import random
 

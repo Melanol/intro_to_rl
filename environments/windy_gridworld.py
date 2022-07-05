@@ -36,13 +36,11 @@ class WindyGridworld:
     def reset(self):
         self.agent.x = self.start.x
         self.agent.y = self.start.y
-        obs = self.start
-        reward = 0
-        done = False
-        return obs, reward, done
+        obs = (self.start.x, self.start.y)
+        return obs
 
     def step(self, action):
-        reward = -1  # Reward is a constant
+        reward = -1
         done = False
 
         # Windy columns
