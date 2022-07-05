@@ -24,4 +24,4 @@ https://github.com/ShangtongZhang/reinforcement-learning-an-introduction. With S
 everything was glued together with the main idea to replicate images, and the code was pain to understand.
 dennybritz's repo was OK, but I needed something in my CV anyway.
 
-# TODO: Normalize hyper names (gamma or discount)
+TODO: Normalize hyper names (gamma or discount)
