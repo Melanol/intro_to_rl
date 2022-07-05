@@ -29,7 +29,6 @@ class QLearning:
             return max_action
 
     def learn(self, obs, action, reward, next_obs):
-        # FIXME: Somehow, it diverges on any env
         max_action_value = -math.inf
         for a in self.env.action_space:
             action_value = self.Q.get((next_obs, a), self.default_Q)
