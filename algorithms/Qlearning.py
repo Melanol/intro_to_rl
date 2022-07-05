@@ -2,11 +2,12 @@
 
 import math
 import random
+
 from matplotlib import pyplot as plt
 
 
 class QLearning:
-    def __init__(self, env, epsilon, alpha, discount, default_Q):
+    def __init__(self, env=None, epsilon=0.1, alpha=0.1, discount=0.9, default_Q=0):
         self.env = env
         self.Q = {}
         self.epsilon = epsilon
