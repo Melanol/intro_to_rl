@@ -23,5 +23,3 @@ I noticed 2 other worthy similar repos: https://github.com/dennybritz/reinforcem
 https://github.com/ShangtongZhang/reinforcement-learning-an-introduction. With ShangtongZhang I didn't like how
 everything was glued together with the main idea to replicate images, and the code was pain to understand.
 dennybritz's repo was OK, but I needed something in my CV anyway.
-
-TODO: Normalize hyper names (gamma or discount)
