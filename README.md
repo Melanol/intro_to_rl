@@ -12,7 +12,7 @@ figure file to replicate a figure.
 
 For envs with grids, the origin is in the top left corner.
 
-Figure files mostly for replicating figures from the books, so algo files are main files.
+Figure files are mostly for replicating figures from the books, so algo files are main files.
 
 Recommendation to self-learners: after you are done with the book, move on to 
 https://github.com/DLR-RM/stable-baselines3.
