@@ -1,6 +1,6 @@
 WORK IN PROGRESS
 
-This is an attempt to implement most algorithms and environments mentioned in the 1st 2 parts of the book "Reinforcement
+This is an attempt to implement algorithms and environments mentioned in the 1st 2 parts of the book "Reinforcement
 Learning. An Introduction. Second Edition" by Sutton and Barto (http://incompleteideas.net/book/the-book-2nd.html). 
 The idea is to make a collection of separate algos and envs a student can play with. No deep learning 
 frameworks.
