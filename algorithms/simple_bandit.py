@@ -3,13 +3,15 @@
 import random
 import math
 
+import numpy as np
+
 
 class SimpleBandit:
     def __init__(self, env=None, epsilon=0.1):
         self.env = env
         self.epsilon = epsilon
-        self.Q = [0] * len(env.action_space)
-        self.uses = [0] * len(env.action_space)
+        self.Q = np.zeros(env.action_space)
+        self.uses = np.zeros(env.action_space)
 
     def act(self):
         if random.random() <= self.epsilon:
@@ -32,7 +34,6 @@ class SimpleBandit:
 
 def exe():
     from matplotlib import pyplot as plt
-    import numpy as np
 
     from environments.k_armed_bandit_env import KArmedBanditEnv
 
@@ -58,6 +59,7 @@ def exe():
     plt.plot(range(1, STEPS+1), avg_rewards)
     plt.title('Average rewards')
     plt.show()
+
 
 if __name__ == '__main__':
     exe()
