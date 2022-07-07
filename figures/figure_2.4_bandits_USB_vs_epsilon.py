@@ -35,5 +35,5 @@ with Pool() as pool:
     plt.legend()
     plt.title('Average rewards')
     plt.xticks([1] + list(range(200, STEPS+1, 200)))
-    plt.savefig('figure_2.4.png')
+    plt.savefig('figure_2.4_bandits_USB_vs_epsilon.png')
     plt.show()

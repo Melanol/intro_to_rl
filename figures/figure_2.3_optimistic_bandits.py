@@ -39,5 +39,5 @@ with Pool() as pool:
     plt.title('% optimal actions')
     plt.xticks([1] + list(range(200, STEPS+1, 200)))
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1.0))
-    plt.savefig('figure_2.3.png')
+    plt.savefig('figure_2.3_optimistic_bandit.png')
     plt.show()
