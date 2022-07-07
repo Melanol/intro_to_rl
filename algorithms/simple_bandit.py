@@ -10,8 +10,8 @@ class SimpleBandit:
     def __init__(self, env=None, epsilon=0.1):
         self.env = env
         self.epsilon = epsilon
-        self.Q = np.zeros(env.action_space)
-        self.uses = np.zeros(env.action_space)
+        self.Q = np.zeros(len(env.action_space))
+        self.uses = np.zeros(len(env.action_space))
 
     def act(self):
         if random.random() <= self.epsilon:

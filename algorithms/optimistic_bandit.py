@@ -56,8 +56,8 @@ def exe():
         ENV.reset()
         agent = OptimisticBandit(ENV, EPSILON, INITIAL, ALPHA)
         rewards = []
-        for _ in range(1, STEPS+1):
-            action = agent.act()
+        for step in range(1, STEPS+1):
+            action = agent.act(step)
             reward = ENV.step(action)
             agent.learn(action, reward)
             rewards.append(reward)
