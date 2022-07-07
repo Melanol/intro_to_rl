@@ -1,4 +1,4 @@
-""" Page 28. Learning is already incremental. """
+"""Page 28. Learning is already incremental."""
 
 import random
 import math
