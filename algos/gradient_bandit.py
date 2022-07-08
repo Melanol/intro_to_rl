@@ -9,9 +9,10 @@ import numpy as np
 
 
 class GradientBandit:
-    def __init__(self, env, alpha=0.1):
+    def __init__(self, env, alpha=0.1, baseline=True):
         self.env = env
         self.alpha = alpha
+        self.baseline = baseline
         self.H = np.zeros(len(env.action_space))
         self.softmax()
 
@@ -28,10 +29,16 @@ class GradientBandit:
         action = kwargs['action']
         reward = kwargs['reward']
         avg_ep_reward = kwargs['avg_ep_reward']
-        self.H[action] += self.alpha * (reward - avg_ep_reward) * self.pi[action]
-        for a in self.env.action_space:
-            if a != action:
-                self.H[a] -= self.alpha * (reward - avg_ep_reward) * (1 - self.pi[a])
+        if self.baseline:
+            self.H[action] += self.alpha * (reward - avg_ep_reward) * self.pi[action]
+            for a in self.env.action_space:
+                if a != action:
+                    self.H[a] -= self.alpha * (reward - avg_ep_reward) * (1 - self.pi[a])
+        else:
+            self.H[action] += self.alpha * (reward) * self.pi[action]
+            for a in self.env.action_space:
+                if a != action:
+                    self.H[a] -= self.alpha * (reward) * (1 - self.pi[a])
         self.softmax()
 
 
@@ -40,7 +47,7 @@ def exe():
 
     from envs.k_armed_bandit_env import KArmedBanditEnv
 
-    EPISODES = 2000
+    EPISODES = 20
     STEPS = 1000
 
     avg_rewards = np.zeros(STEPS)

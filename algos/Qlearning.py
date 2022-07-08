@@ -28,7 +28,11 @@ class QLearning:
                     max_action = action
             return max_action
 
-    def learn(self, obs, action, reward, next_obs):
+    def learn(self, **kwargs):
+        obs = kwargs['obs']
+        action = kwargs['action']
+        reward = kwargs['reward']
+        next_obs = kwargs['next_obs']
         max_action_value = -math.inf
         for a in self.env.action_space:
             action_value = self.Q.get((next_obs, a), self.default_Q)
@@ -59,7 +63,7 @@ def exe():
         while not done:
             action = agent.act(obs)
             next_obs, reward, done = ENV.step(action)
-            agent.learn(obs, action, reward, next_obs)
+            agent.learn(obs=obs, action=action, reward=reward, next_obs=next_obs)
             obs = next_obs
             step += 1
         steps_to_plot.append(step)

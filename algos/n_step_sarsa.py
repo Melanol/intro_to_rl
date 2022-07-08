@@ -52,7 +52,7 @@ def exe():
         T = math.inf
         done = False
         t = 0
-        while True:
+        while not done:
             if t < T:
                 obs, reward, done = ENV.step(actions[t])
                 obses.append(obs)
@@ -76,7 +76,6 @@ def exe():
             t += 1
             if tau == T - 1:
                 break
-            print(t)
         steps_to_plot.append(t)
 
     plt.plot(steps_to_plot)

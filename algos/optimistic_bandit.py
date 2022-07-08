@@ -4,6 +4,8 @@ but also in having a constant learning rate. """
 import random
 import math
 
+import numpy as np
+
 
 class OptimisticBandit:
     def __init__(self, env=None, initial=5, epsilon=0.1, alpha=0.1):
@@ -12,11 +14,11 @@ class OptimisticBandit:
         self.initial = initial
         self.alpha = alpha
         if env:
-            self.Q = [initial] * len(env.action_space)
+            self.Q = np.full(len(env.action_space), initial, dtype='float64')
 
     def assign_env(self, env):
         self.env = env
-        self.Q = [0] * len(env.action_space)
+        self.Q = np.full(len(env.action_space), self.initial, dtype='float64')
 
     def act(self, step):
         if random.random() <= self.epsilon:
@@ -40,12 +42,11 @@ class OptimisticBandit:
 
 def exe():
     from matplotlib import pyplot as plt
-    import numpy as np
 
     from envs.k_armed_bandit_env import KArmedBanditEnv
 
     STEPS = 1000
-    EPISODES = 2000
+    EPISODES = 200
     EPSILON = 0
     INITIAL = 5
     ALPHA = 0.1

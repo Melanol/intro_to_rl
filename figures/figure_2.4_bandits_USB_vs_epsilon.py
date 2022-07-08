@@ -10,7 +10,7 @@ import numpy as np
 
 
 STEPS = 1000
-EPISODES = 2000
+EPISODES = 200
 AGENTS = [OptimisticBandit(), UCBBandit()]
 
 def exe(agent):
@@ -22,7 +22,7 @@ def exe(agent):
         for step in range(1, STEPS+1):
             action = agent.act(step)
             reward = env.step(action)
-            agent.learn(action, reward)
+            agent.learn(action=action, reward=reward)
             rewards.append(reward)
         for i in range(STEPS):
             avg_rewards[i] += (rewards[i] - avg_rewards[i]) / episode
@@ -35,5 +35,5 @@ with Pool() as pool:
     plt.legend()
     plt.title('Average rewards')
     plt.xticks([1] + list(range(200, STEPS+1, 200)))
-    plt.savefig('figure_2.4_bandits_USB_vs_epsilon.png')
+    # plt.savefig('figure_2.4_bandits_USB_vs_epsilon.png')
     plt.show()

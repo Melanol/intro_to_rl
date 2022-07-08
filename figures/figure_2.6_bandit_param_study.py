@@ -57,4 +57,3 @@ with Pool() as pool:
     plt.xticks(TICKS, ('1/128', '1/64', '1/32', '1/16', '1/8', '1/4', '1/2', '1', '2', '4'))
     plt.savefig('figure_2.6_bandit_param_study.png')
     plt.show()
-    # plt.show()

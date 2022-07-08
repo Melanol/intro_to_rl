@@ -2,19 +2,21 @@
 
 import math
 
+import numpy as np
+
 
 class UCBBandit:
     def __init__(self, env=None, c=2):
         self.env = env
         self.c = c
         if env:
-            self.Q = [0] * len(env.action_space)
-            self.uses = [0] * len(env.action_space)
+            self.Q = np.zeros(len(env.action_space))
+            self.uses = np.zeros(len(env.action_space))
 
     def assign_env(self, env):
         self.env = env
-        self.Q = [0] * len(env.action_space)
-        self.uses = [0] * len(env.action_space)
+        self.Q = np.zeros(len(env.action_space))
+        self.uses = np.zeros(len(env.action_space))
 
     def act(self, step):
         max_preference = -math.inf
@@ -39,7 +41,6 @@ class UCBBandit:
 
 def exe():
     from matplotlib import pyplot as plt
-    import numpy as np
 
     from envs.k_armed_bandit_env import KArmedBanditEnv
 
