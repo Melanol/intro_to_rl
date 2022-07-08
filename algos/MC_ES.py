@@ -4,7 +4,7 @@
 
 import math
 
-from environments.blackjack import Blackjack
+from envs.blackjack import Blackjack
 
 
 class MSESAgent:

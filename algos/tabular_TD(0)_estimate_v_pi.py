@@ -2,7 +2,7 @@
 
 import random
 
-from environments.random_walk import RandomWalk
+from envs.random_walk import RandomWalk
 
 
 EPISODES = 1000

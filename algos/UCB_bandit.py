@@ -7,11 +7,9 @@ class UCBBandit:
     def __init__(self, env=None, c=2):
         self.env = env
         self.c = c
-        try:
+        if env:
             self.Q = [0] * len(env.action_space)
             self.uses = [0] * len(env.action_space)
-        except AttributeError:
-            pass
 
     def assign_env(self, env):
         self.env = env
@@ -33,7 +31,9 @@ class UCBBandit:
         self.uses[max_action] += 1
         return max_action
 
-    def learn(self, action, reward):
+    def learn(self, **kwargs):
+        action = kwargs['action']
+        reward = kwargs['reward']
         self.Q[action] += (reward - self.Q[action]) / self.uses[action]
 
 
@@ -41,7 +41,7 @@ def exe():
     from matplotlib import pyplot as plt
     import numpy as np
 
-    from environments.k_armed_bandit_env import KArmedBanditEnv
+    from envs.k_armed_bandit_env import KArmedBanditEnv
 
     STEPS = 1000
     EPISODES = 2000

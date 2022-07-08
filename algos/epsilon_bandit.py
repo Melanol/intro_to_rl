@@ -6,14 +6,14 @@ import math
 import numpy as np
 
 
-class SimpleBandit:
+class EpsilonBandit:
     def __init__(self, env=None, epsilon=0.1):
         self.env = env
         self.epsilon = epsilon
         self.Q = np.zeros(len(env.action_space))
         self.uses = np.zeros(len(env.action_space))
 
-    def act(self):
+    def act(self, step):
         if random.random() <= self.epsilon:
             action = random.choice(self.env.action_space)
         else:
@@ -28,29 +28,31 @@ class SimpleBandit:
         self.uses[action] += 1
         return action
 
-    def learn(self, action, reward):
+    def learn(self, **kwargs):
+        action = kwargs['action']
+        reward = kwargs['reward']
         self.Q[action] += (reward - self.Q[action]) / self.uses[action]
 
 
 def exe():
     from matplotlib import pyplot as plt
 
-    from environments.k_armed_bandit_env import KArmedBanditEnv
+    from envs.k_armed_bandit_env import KArmedBanditEnv
 
     STEPS = 1000
-    EPISODES = 2000
+    EPISODES = 200
     EPSILON = 0.1
     ENV = KArmedBanditEnv()
 
     avg_rewards = np.zeros(STEPS)
     for episode in range(1, EPISODES+1):
         ENV.reset()
-        agent = SimpleBandit(ENV, EPSILON)
+        agent = EpsilonBandit(ENV, EPSILON)
         rewards = []
-        for _ in range(1, STEPS+1):
-            action = agent.act()
+        for step in range(1, STEPS+1):
+            action = agent.act(step)
             reward = ENV.step(action)
-            agent.learn(action, reward)
+            agent.learn(action=action, reward=reward)
             rewards.append(reward)
         for i in range(STEPS):
             avg_rewards[i] += (rewards[i] - avg_rewards[i]) / episode

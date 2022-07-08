@@ -6,8 +6,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib.ticker as mtick
 
-from environments.k_armed_bandit_env import KArmedBanditEnv
-from algorithms.simple_bandit import SimpleBandit
+from envs.k_armed_bandit_env import KArmedBanditEnv
+from algos.epsilon_bandit import EpsilonBandit
 
 
 STEPS = 1000
@@ -19,7 +19,7 @@ def exe(epsilon):
     avg_perc_opt_actions = np.zeros(STEPS)
     for episode in range(1, EPISODES + 1):
         env = KArmedBanditEnv()
-        agent = SimpleBandit(env, epsilon)
+        agent = EpsilonBandit(env, epsilon)
         rewards = []
         optimal_actions_bool = []
         for _ in range(1, STEPS+1):

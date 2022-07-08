@@ -1,4 +1,4 @@
-from environments.cliff_walking import CliffWalking
+from envs.cliff_walking import CliffWalking
 
 
 def test_cliff():

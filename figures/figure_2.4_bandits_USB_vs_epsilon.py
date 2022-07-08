@@ -3,9 +3,9 @@
 from multiprocessing import Pool
 from matplotlib import pyplot as plt
 
-from environments.k_armed_bandit_env import KArmedBanditEnv
-from algorithms.optimistic_bandit import OptimisticBandit
-from algorithms.UCB_bandit import UCBBandit
+from envs.k_armed_bandit_env import KArmedBanditEnv
+from algos.optimistic_bandit import OptimisticBandit
+from algos.UCB_bandit import UCBBandit
 import numpy as np
 
 

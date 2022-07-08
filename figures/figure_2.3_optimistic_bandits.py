@@ -7,15 +7,15 @@ import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib.ticker as mtick
 
-from environments.k_armed_bandit_env import KArmedBanditEnv
-from algorithms.optimistic_bandit import OptimisticBandit
+from envs.k_armed_bandit_env import KArmedBanditEnv
+from algos.optimistic_bandit import OptimisticBandit
 
 
-def exe(epsilon, initial):
+def exe(initial, epsilon):
     avg_perc_opt_actions = np.zeros(STEPS)
     for episode in range(1, EPISODES + 1):
         env = KArmedBanditEnv()
-        player = OptimisticBandit(env, epsilon, initial)
+        player = OptimisticBandit(env, initial, epsilon)
         optimal_actions_bool = []
         for _ in range(1, STEPS+1):
             action = player.act()
@@ -28,8 +28,8 @@ def exe(epsilon, initial):
 
 STEPS = 1000
 EPISODES = 2000
-EPSILONS = (0.1, 0)
 INITIALS = (0, 5)
+EPSILONS = (0.1, 0)
 
 with Pool() as pool:
     avg_perc_opt_actions = pool.starmap(exe, [(0.1, 0), (0, 5)])

@@ -6,15 +6,13 @@ import math
 
 
 class OptimisticBandit:
-    def __init__(self, env=None, epsilon=0.1, initial=0, alpha=0.1):
+    def __init__(self, env=None, initial=5, epsilon=0.1, alpha=0.1):
         self.env = env
         self.epsilon = epsilon
         self.initial = initial
         self.alpha = alpha
-        try:
+        if env:
             self.Q = [initial] * len(env.action_space)
-        except AttributeError:
-            pass
 
     def assign_env(self, env):
         self.env = env
@@ -34,7 +32,9 @@ class OptimisticBandit:
             action = max_action
         return action
 
-    def learn(self, action, reward):
+    def learn(self, **kwargs):
+        action = kwargs['action']
+        reward = kwargs['reward']
         self.Q[action] += self.alpha * (reward - self.Q[action])
 
 
@@ -42,7 +42,7 @@ def exe():
     from matplotlib import pyplot as plt
     import numpy as np
 
-    from environments.k_armed_bandit_env import KArmedBanditEnv
+    from envs.k_armed_bandit_env import KArmedBanditEnv
 
     STEPS = 1000
     EPISODES = 2000
@@ -54,12 +54,12 @@ def exe():
     avg_rewards = np.zeros(STEPS)
     for episode in range(1, EPISODES+1):
         ENV.reset()
-        agent = OptimisticBandit(ENV, EPSILON, INITIAL, ALPHA)
+        agent = OptimisticBandit(ENV, INITIAL, EPSILON, ALPHA)
         rewards = []
         for step in range(1, STEPS+1):
             action = agent.act(step)
             reward = ENV.step(action)
-            agent.learn(action, reward)
+            agent.learn(action=action, reward=reward)
             rewards.append(reward)
         for i in range(STEPS):
             avg_rewards[i] += (rewards[i] - avg_rewards[i]) / episode

@@ -30,7 +30,7 @@ class Sarsa:
 
 
 def exe():
-    from environments.windy_gridworld import WindyGridworld
+    from envs.windy_gridworld import WindyGridworld
 
     ENV = WindyGridworld()
     EPISODES = 100

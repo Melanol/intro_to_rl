@@ -5,9 +5,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from environments.cliff_walking import CliffWalking
-from algorithms.sarsa import Sarsa
-from algorithms.Qlearning import QLearning
+from envs.cliff_walking import CliffWalking
+from algos.sarsa import Sarsa
+from algos.Qlearning import QLearning
 
 
 RUNS = 100
