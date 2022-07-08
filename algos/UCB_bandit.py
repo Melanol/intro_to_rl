@@ -22,11 +22,11 @@ class UCBBandit:
         max_preference = -math.inf
         max_action = None
         for a in self.env.action_space:
-            try:
-                action_preference = self.Q[a] + self.c * (math.log(step) / self.uses[a])**0.5
-            except ZeroDivisionError:  # If action was never selected, select it
-                self.uses[a] += 1
+            if self.uses[a] == 0:
+                self.uses[a] = 1
                 return a
+            else:
+                action_preference = self.Q[a] + self.c * (math.log(step) / self.uses[a])**0.5
             if action_preference > max_preference:
                 max_preference = action_preference
                 max_action = a
@@ -45,7 +45,7 @@ def exe():
     from envs.k_armed_bandit_env import KArmedBanditEnv
 
     STEPS = 1000
-    EPISODES = 2000
+    EPISODES = 200
 
     avg_rewards = np.zeros(STEPS)
     for episode in range(1, EPISODES+1):
@@ -55,7 +55,7 @@ def exe():
         for step in range(1, STEPS+1):
             action = agent.act(step)
             reward = env.step(action)
-            agent.learn(action, reward)
+            agent.learn(action=action, reward=reward)
             rewards.append(reward)
         for i in range(STEPS):
             avg_rewards[i] += (rewards[i] - avg_rewards[i]) / episode

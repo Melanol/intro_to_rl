@@ -13,6 +13,7 @@ STEPS = 1000
 EPISODES = 200
 AGENTS = [OptimisticBandit(), UCBBandit()]
 
+
 def exe(agent):
     avg_rewards = np.zeros(STEPS)
     for episode in range(1, EPISODES+1):
@@ -27,6 +28,7 @@ def exe(agent):
         for i in range(STEPS):
             avg_rewards[i] += (rewards[i] - avg_rewards[i]) / episode
     return avg_rewards
+
 
 with Pool() as pool:
     results = pool.map(exe, AGENTS)
