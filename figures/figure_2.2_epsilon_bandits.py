@@ -11,8 +11,9 @@ from algos.epsilon_bandit import EpsilonBandit
 
 
 STEPS = 1000
-EPISODES = 2000
+EPISODES = 200
 EPSILONS = (0.1, 0.01, 0)
+
 
 def exe(epsilon):
     avg_rewards = np.zeros(STEPS)
@@ -22,10 +23,10 @@ def exe(epsilon):
         agent = EpsilonBandit(env, epsilon)
         rewards = []
         optimal_actions_bool = []
-        for _ in range(1, STEPS+1):
-            action = agent.act()
+        for step in range(1, STEPS+1):
+            action = agent.act(step)
             reward = env.step(action)
-            agent.learn(action, reward)
+            agent.learn(action=action, reward=reward)
             rewards.append(reward)
             optimal_actions_bool.append(action == env.optimal_action)
         for i in range(STEPS):
@@ -42,6 +43,7 @@ with Pool() as pool:
         avg_perc_opt_actions.append(p)
     plt.figure(figsize=(10, 7))
 
+    # Plot average rewards
     plt.subplot(2, 1, 1)
     for i, epsilon in enumerate(EPSILONS):
         plt.xticks([1] + list(range(200, STEPS+1, 200)))
@@ -49,13 +51,14 @@ with Pool() as pool:
     plt.legend()
     plt.title('Average rewards')
 
+    # Plot % optimal action
     plt.subplot(2, 1, 2)
     for i, epsilon in enumerate(EPSILONS):
         plt.xticks([1] + list(range(200, STEPS+1, 200)))
         plt.plot(range(1, STEPS+1), avg_perc_opt_actions[i], label=f'e: {epsilon}')
     plt.legend()
-    plt.title('% optimal actions')
+    plt.title('% optimal action')
 
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1.0))
-    plt.savefig('figure_2.2_epsilon_bandits.png')
+    # plt.savefig('figure_2.2_epsilon_bandits.png')
     plt.show()
