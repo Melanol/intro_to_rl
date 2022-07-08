@@ -45,11 +45,11 @@ def exe(input):
 
 
 with Pool() as pool:
-    avg_rewards = pool.map(exe, INPUT)
-    plt.plot(EPSILON_BANDIT_PARAMS, avg_rewards[0], label='epsilon bandit: epsilon')
-    plt.plot(OPTIMISTIC_PARAMS, avg_rewards[1], label='optimistic: initial')
-    plt.plot(UCB_PARAMS, avg_rewards[2], label='UCB: c')
-    plt.plot(GRADIENT_PARAMS, avg_rewards[3], label='gradient: alpha')
+    results = pool.map(exe, INPUT)
+    plt.plot(EPSILON_BANDIT_PARAMS, results[0], label='epsilon bandit: epsilon')
+    plt.plot(OPTIMISTIC_PARAMS, results[1], label='optimistic: initial')
+    plt.plot(UCB_PARAMS, results[2], label='UCB: c')
+    plt.plot(GRADIENT_PARAMS, results[3], label='gradient: alpha')
     plt.xscale("log")
     plt.legend()
     plt.title('Bandit algorithms parameter study')

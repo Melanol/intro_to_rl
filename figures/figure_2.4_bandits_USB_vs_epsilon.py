@@ -29,9 +29,9 @@ def exe(agent):
     return avg_rewards
 
 with Pool() as pool:
-    avg_rewards = pool.map(exe, AGENTS)
-    plt.plot(range(1, STEPS+1), avg_rewards[1], label=f'e-greedy e: {AGENTS[0].epsilon}')
-    plt.plot(range(1, STEPS+1), avg_rewards[0], label=f'USB c: {AGENTS[1].c}')
+    results = pool.map(exe, AGENTS)
+    plt.plot(range(1, STEPS+1), results[1], label=f'e-greedy e: {AGENTS[0].epsilon}')
+    plt.plot(range(1, STEPS+1), results[0], label=f'USB c: {AGENTS[1].c}')
     plt.legend()
     plt.title('Average rewards')
     plt.xticks([1] + list(range(200, STEPS+1, 200)))

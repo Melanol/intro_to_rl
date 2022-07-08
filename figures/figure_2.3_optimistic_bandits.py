@@ -32,9 +32,9 @@ INITIALS = (0, 5)
 EPSILONS = (0.1, 0)
 
 with Pool() as pool:
-    avg_perc_opt_actions = pool.starmap(exe, [(0.1, 0), (0, 5)])
+    results = pool.starmap(exe, [(0.1, 0), (0, 5)])
     for i, eps in enumerate(EPSILONS):
-        plt.plot(range(1, STEPS+1), avg_perc_opt_actions[i], label=f'init: {INITIALS[i]} e: {eps}')
+        plt.plot(range(1, STEPS+1), results[i], label=f'init: {INITIALS[i]} e: {eps}')
     plt.legend()
     plt.title('% optimal actions')
     plt.xticks([1] + list(range(200, STEPS+1, 200)))
