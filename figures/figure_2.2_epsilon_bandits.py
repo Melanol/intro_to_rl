@@ -34,6 +34,7 @@ def exe(epsilon):
             avg_perc_opt_actions[i] += (optimal_actions_bool[i] - avg_perc_opt_actions[i]) / episode
     return avg_rewards, avg_perc_opt_actions
 
+
 with Pool() as pool:
     results = pool.map(exe, EPSILONS)
     avg_rewards = []
