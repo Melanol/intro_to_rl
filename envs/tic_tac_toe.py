@@ -7,12 +7,23 @@ how complex it is. Read the part and move on to the k-armed bandits.
 0 1 2
 1 0 2
 
+Since this env is very different from the others, I had to make an agent specifically for it, it is in this file.
+
 The controls for the human player is in the form "y x", where both are numbers.
 
 Some non-square grids crash the env, but I doubt anyone will use them anyway.
 """
 
+# Improvement vectors in priority:
+# > Finish ValueFunctionAgent
+# > Let a human play against a trained agent
+# > Self-play
+# > A way for non-specifically-designed agents to play
+# > Afterstates
 
+
+import copy
+import math
 import random
 
 import numpy as np
@@ -44,17 +55,21 @@ class TicTacToe:
     def step(self, player_mark, action):
         reward = 0
         done = False
+        info = {}
         self.state[tuple(action)] = player_mark
         game_state = self.check_game_state()
         if game_state[0] == 'win':
+            winner = game_state[1]
+            info['winner'] = winner
             reward = 1
             done = True
-            print(f'Player {game_state[1]} wins')
+            print(f'Player {winner} wins')
         elif game_state[0] == 'draw':
-            print('Draw')
+            info['winner'] = 0
             done = True
+            print('Draw')
         obs = self.state
-        return obs, reward, done
+        return obs, reward, done, info
 
     def check_diagonals(self, state):
         # Collecting diagonal elements:
@@ -156,6 +171,9 @@ class RandomAgent:
     def act(self):
         return random.choice(self.env.return_empty_cells())
 
+    def learn(self, **kwargs):
+        pass
+
 
 class Human:
     def __init__(self, env):
@@ -186,19 +204,55 @@ class Human:
                 else:
                     return action
 
-class ValueFunctionAgent:
-    #  TODO: 0 value for loss and draw, 1 for a won state, 0.5 for everyting else.
-    # TODO: we look at the all next possible moves and check up their values in the table. Epsilon action selection.
-    # TODO: exploratory moves do not result in any learning. after each non-exploratory move, we update like this:
-    # (TD) : V(St) = V(St) + a(V(St+1) - V(St), where V(St) is the prev state (not a cell), V(St+1) is the val of the
-    # next state. Recommended to gradually reduce alpha
-
-    """ Finally, the tic-tac-toe player was able to look ahead and know the states that would
-result from each of its possible moves. To do this, it had to have a model of the game
-that allowed it to foresee how its environment would change in response to moves that it
-might never make """
-    def __init__(self):
+    def learn(self, **kwargs):
         pass
+
+class ValueFunctionAgent:
+    """This agent is a bit ugly, but close to how it is described in the book."""
+
+    def __init__(self, env=None, epsilon=0.1, alpha=0.1):
+        self.env = env
+        self.epsilon = epsilon
+        self.alpha = 0.1
+        self.mark = None
+        self.V = {}  # fill it as you encounter new states
+
+    def act(self):
+        # I guess, even if learning here is jumping over our moves, acting doesn't have to
+        if random.random() <= self.epsilon:
+            action = random.choice(self.env.action_space)
+        else:
+            # Generate next states
+            empty_cells = self.env.return_empty_cells()
+            next_states = []
+            for a in empty_cells:
+                state = copy.copy(self.env.state)  # TODO: Check if really need copy
+                state[tuple(a)] = self.mark
+                next_states.append((state, a))
+
+            # Find best state
+            max_state_value = -math.inf
+            max_state = None
+            for i, s in enumerate(next_states[0]):
+                state_value = self.V.get(str(s), 0.5)
+                if state_value > max_state_value:
+                    max_state_value = state_value
+                    max_state = s
+
+            # Select action
+            action = next_states[i][1]  # FIXME: List index out of range
+
+        return action
+
+    def learn(self, **kwargs):
+        obs = kwargs['obs']
+        next_obs = kwargs['next_obs']
+        reward = kwargs['reward']
+        if reward:  # Game ended
+            self.V[str(obs)] = self.V.get(str(obs), 0.5) + self.alpha * (reward - self.V.get(str(obs), 0.5))
+        else:
+            self.V[str(obs)] = self.V.get(str(obs), 0.5) + self.alpha * (self.V.get(str(next_obs), 0.5)
+                                                                         - self.V.get(str(obs), 0.5))
 
 
 def play():
@@ -206,17 +260,25 @@ def play():
     players = (RandomAgent(env), Human(env))
     env.add_players(players)
     done = False
-    player_1_turn = True
+    player1_turn = True
     while not done:
-        if player_1_turn:
+        if player1_turn:
             player_mark = 1
+            obs_before_p1_action = env.state
             action = players[0].act()
-            player_1_turn = False
+            obs, reward, done, info = env.step(player_mark, action)
+            obs_after_p1_action = obs
+            player1_turn = False
         else:
             player_mark = 2
+            obs_before_p2_action = env.state
             action = players[1].act()
-            player_1_turn = True
-        obs, reward, done = env.step(player_mark, action)
+            obs, reward, done, info = env.step(player_mark, action)
+            obs_after_p2_action = obs
+
+            players[1].learn(obs=obs_before_p1_action, next_obs=obs_after_p2_action, reward=reward)
+
+            player1_turn = True
 
 
 if __name__ == '__main__':
