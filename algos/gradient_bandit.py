@@ -17,8 +17,6 @@ class GradientBandit:
         self.softmax()
 
     def softmax(self):
-        # Here, we had to use "self.H - np.max(self.H)" instead of "self.H" because otherwise we get crashes when
-        # not using baselines of having too big alpha.
         self.pi = np.exp(self.H - np.max(self.H)) / np.sum(np.exp(self.H - np.max(self.H)))
 
     def act(self, step):
