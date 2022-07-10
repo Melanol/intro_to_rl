@@ -19,7 +19,7 @@ class ShortCorridor:
 
     def step(self, action):
         reward = -1
-        termination = False
+        done = False
 
         if self.state in self.reversed_states:
             if np.array_equal(action, [0, 1]):
@@ -28,7 +28,7 @@ class ShortCorridor:
                 action = np.array([0, 1])
 
         if self.state == 0 and np.array_equal(action, [0, 1]):
-            return reward, self.state, termination
+            return reward, self.state, done
         else:
             if np.array_equal(action, [0, 1]):
                 self.state -= 1
@@ -36,10 +36,10 @@ class ShortCorridor:
                 self.state += 1
             if self.state == self.goal:
                 reward = 100
-                termination = True
+                done = True
                 self.reset()
 
-        return reward, self.state, termination
+        return self.state, reward, done
 
     def print_game_state(self):
         if self.state == 0:
@@ -79,12 +79,13 @@ def exe():
     env = ShortCorridor()
     agent = Human(env)
     env.agent = agent
-    while True:
+    done = False
+    while not done:
         env.print_game_state()
         action = agent.act()
-        reward, state, termination = env.step(action)
-        if termination:
-            print('\nTermination')
+        state, reward, done = env.step(action)
+    print('\nTermination')
+
 
 if __name__ == '__main__':
     exe()
